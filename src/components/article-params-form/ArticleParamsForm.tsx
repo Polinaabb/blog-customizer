@@ -12,10 +12,10 @@ import {
 
 import styles from './ArticleParamsForm.module.scss';
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useRef } from 'react';
 import clsx from 'clsx';
 
-import { OpenCloseForm } from '../openCloseForm/OpenCloseForm';
+import { useOpenCloseForm } from './hooks/useOpenCloseForm';
 import { Select } from '../select';
 import { RadioGroup } from '../radio-group';
 import { Separator } from '../separator';
@@ -43,9 +43,13 @@ export const ArticleParamsForm = ({
 
 	const [contentWidth, setContentWidth] = useState(params.contentWidth);
 
-	const handleArrowButtonClick = () => {
-		setIsOpen(!isOpen);
-	};
+	const wrapperRef = useRef<HTMLDivElement | null>(null);
+
+	const handleArrowButtonClick = useOpenCloseForm({
+		isOpen,
+		setIsOpen,
+		wrapperRef,
+	});
 
 	const handleSubmitForm = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
@@ -68,7 +72,7 @@ export const ArticleParamsForm = ({
 	};
 
 	return (
-		<OpenCloseForm isOpen={isOpen} setIsOpen={setIsOpen}>
+		<div ref={wrapperRef}>
 			<ArrowButton isOpen={isOpen} onClick={handleArrowButtonClick} />
 			<aside
 				className={clsx(styles.container, {
@@ -117,6 +121,6 @@ export const ArticleParamsForm = ({
 					</div>
 				</form>
 			</aside>
-		</OpenCloseForm>
+		</div>
 	);
 };
