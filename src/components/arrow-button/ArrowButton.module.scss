@@ -17,6 +17,10 @@
 	transform: translate(616px);
 }
 
+.container:active {
+	background: rgb(120 120 120);
+}
+
 .arrow {
 	flex-shrink: 0;
 	width: 48px;
